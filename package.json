@@ -575,6 +575,12 @@
       "hash": "QmSaz8Qg77gGqvDvLKeSAY7ivDEnramSWF6T7TcRwFpHtP",
       "name": "go-unixfs",
       "version": "1.0.0"
+    },
+    {
+      "author": "magik6k",
+      "hash": "QmYyFh6g1C9uieTpH8CR8PpWBUQjvMDJTsRhJWx5qkXy39",
+      "name": "go-ipfs-config",
+      "version": "0.2.1"
     }
   ],
   "gxVersion": "0.10.0",

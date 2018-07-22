@@ -13,8 +13,8 @@ import (
 	core "github.com/ipfs/go-ipfs/core"
 	corehttp "github.com/ipfs/go-ipfs/core/corehttp"
 	coreunix "github.com/ipfs/go-ipfs/core/coreunix"
-	config "github.com/ipfs/go-ipfs/repo/config"
 	fsrepo "github.com/ipfs/go-ipfs/repo/fsrepo"
+	config "gx/ipfs/QmYyFh6g1C9uieTpH8CR8PpWBUQjvMDJTsRhJWx5qkXy39/go-ipfs-config"
 
 	homedir "github.com/ipfs/go-ipfs/Godeps/_workspace/src/github.com/mitchellh/go-homedir"
 
