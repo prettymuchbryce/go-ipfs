@@ -214,7 +214,7 @@ func getBlock(ctx context.Context, c *cid.Cid, bs blockstore.Blockstore, f excha
 		return nil, err
 	}
 
-	block, err := bs.Get(c)
+	block, err := getBlockFromStore(c, bs)
 	if err == nil {
 		return block, nil
 	}
@@ -240,6 +240,31 @@ func getBlock(ctx context.Context, c *cid.Cid, bs blockstore.Blockstore, f excha
 	}
 
 	return nil, err
+}
+
+func getBlockFromStore(c *cid.Cid, bs blockstore.Blockstore) (blocks.Block, error) {
+	block, err0 := bs.Get(c)
+	if err0 == nil {
+		return block, nil
+	}
+	if err0 != blockstore.ErrNotFound {
+		return nil, err0
+	}
+	prefix := c.Prefix()
+	if prefix.Codec != cid.DagProtobuf {
+		return nil, err0
+	}
+	var c1 *cid.Cid
+	if prefix.Version == 0 {
+		c1 = cid.NewCidV1(cid.DagProtobuf, c.Hash())
+	} else {
+		c1 = cid.NewCidV0(c.Hash())
+	}
+	block, err1 := bs.Get(c1)
+	if err1 != nil {
+		return nil, err0
+	}
+	return blocks.NewBlockWithCid(block.RawData(), c1)
 }
 
 // GetBlocks gets a list of blocks asynchronously and returns through
@@ -269,7 +294,7 @@ func getBlocks(ctx context.Context, ks []*cid.Cid, bs blockstore.Blockstore, f e
 
 		var misses []*cid.Cid
 		for _, c := range ks {
-			hit, err := bs.Get(c)
+			hit, err := getBlockFromStore(c, bs)
 			if err != nil {
 				misses = append(misses, c)
 				continue
