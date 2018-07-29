@@ -16,6 +16,7 @@ import (
 	pin "github.com/ipfs/go-ipfs/pin"
 	repo "github.com/ipfs/go-ipfs/repo"
 	cfg "github.com/ipfs/go-ipfs/repo/config"
+	cidv0v1 "github.com/ipfs/go-ipfs/thirdparty/cidv0v1"
 	"github.com/ipfs/go-ipfs/thirdparty/verifbs"
 	uio "github.com/ipfs/go-ipfs/unixfs/io"
 
@@ -210,6 +211,8 @@ func setupNode(ctx context.Context, n *IpfsNode, cfg *BuildCfg) error {
 	}
 
 	wbs = bstore.NewIdStore(wbs)
+
+	wbs = cidv0v1.NewBlockstore(wbs)
 
 	n.BaseBlocks = wbs
 	n.GCLocker = bstore.NewGCLocker()
